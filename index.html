@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Local Visibility Deployment Mini eCourse | DeployMiMS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1A3C5E;
+    --gold: #E8A020;
+    --gold-light: #FEF3DC;
+    --cream: #FAFAF7;
+    --white: #FFFFFF;
+    --text: #1F2937;
+    --muted: #6B7280;
+    --surface: #F0F4F8;
+    --green: #166534;
+    --green-light: #F0FDF4;
+    --border: #E5E7EB;
+    --complete: #059669;
+    --radius: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 16px;
+  }
+
+  /* HEADER */
+  .site-header {
+    background: var(--navy);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(26,60,94,0.3);
+  }
+  .logo {
+    font-family: 'Fraunces', serif;
+    color: var(--gold);
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+  .progress-bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    max-width: 300px;
+    margin: 0 20px;
+  }
+  .progress-track {
+    flex: 1;
+    height: 6px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--gold);
+    border-radius: 999px;
+    transition: width 0.5s ease;
+    width: 0%;
+  }
+  .progress-label {
+    color: rgba(255,255,255,0.7);
+    font-size: 0.78rem;
+    white-space: nowrap;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, #0F2540 60%, #1A3C5E 100%);
+    padding: 64px 24px 80px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 70% 30%, rgba(232,160,32,0.12) 0%, transparent 60%);
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(232,160,32,0.15);
+    border: 1px solid rgba(232,160,32,0.4);
+    color: var(--gold);
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    color: var(--white);
+    line-height: 1.15;
+    max-width: 700px;
+    margin: 0 auto 16px;
+    font-weight: 700;
+    position: relative;
+  }
+  .hero h1 em {
+    color: var(--gold);
+    font-style: italic;
+  }
+  .hero-sub {
+    color: rgba(255,255,255,0.72);
+    font-size: 1.05rem;
+    max-width: 520px;
+    margin: 0 auto 32px;
+    position: relative;
+  }
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    position: relative;
+  }
+  .hero-stat {
+    text-align: center;
+  }
+  .hero-stat-num {
+    font-family: 'Fraunces', serif;
+    font-size: 1.8rem;
+    color: var(--gold);
+    font-weight: 700;
+    display: block;
+  }
+  .hero-stat-label {
+    color: rgba(255,255,255,0.6);
+    font-size: 0.82rem;
+    display: block;
+  }
+
+  /* LAYOUT */
+  .main-layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 0;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 24px;
+    align-items: start;
+  }
+  @media (max-width: 720px) {
+    .main-layout { grid-template-columns: 1fr; padding: 20px 16px; }
+    .sidebar { position: static; margin-bottom: 24px; }
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    position: sticky;
+    top: 70px;
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  }
+  .sidebar-title {
+    background: var(--navy);
+    color: var(--white);
+    padding: 14px 18px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 18px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border);
+    transition: all 0.2s;
+    font-size: 0.88rem;
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .nav-item:hover { background: var(--surface); color: var(--navy); }
+  .nav-item.active { background: var(--gold-light); color: var(--navy); font-weight: 600; border-left: 3px solid var(--gold); }
+  .nav-item.completed { color: var(--complete); }
+  .nav-dot {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.68rem;
+    flex-shrink: 0;
+    font-weight: 700;
+  }
+  .nav-item.completed .nav-dot { background: var(--complete); border-color: var(--complete); color: white; }
+  .nav-item.active .nav-dot { background: var(--gold); border-color: var(--gold); color: white; }
+
+  /* CONTENT AREA */
+  .content-area { padding-left: 32px; }
+  @media (max-width: 720px) { .content-area { padding-left: 0; } }
+
+  /* LESSON CARD */
+  .lesson-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 16px rgba(0,0,0,0.05);
+    display: none;
+    animation: fadeIn 0.35s ease;
+  }
+  .lesson-card.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+  .lesson-header {
+    background: linear-gradient(135deg, var(--navy) 0%, #24527A 100%);
+    padding: 32px 36px;
+    border-radius: var(--radius) var(--radius) 0 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .lesson-header::after {
+    content: '';
+    position: absolute;
+    right: -20px; top: -20px;
+    width: 150px; height: 150px;
+    border-radius: 50%;
+    background: rgba(232,160,32,0.08);
+  }
+  .lesson-num {
+    color: var(--gold);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .lesson-title {
+    font-family: 'Fraunces', serif;
+    color: var(--white);
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    line-height: 1.2;
+    font-weight: 700;
+    max-width: 500px;
+    position: relative;
+  }
+  .lesson-meta {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+  .lesson-badge {
+    background: rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.8);
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 0.76rem;
+    position: relative;
+  }
+
+  .lesson-body { padding: 36px; }
+
+  .intro-block {
+    background: var(--surface);
+    border-left: 4px solid var(--navy);
+    padding: 18px 22px;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 28px;
+    font-size: 1.02rem;
+    color: #374151;
+    line-height: 1.75;
+  }
+
+  h2.section-head {
+    font-family: 'Fraunces', serif;
+    color: var(--navy);
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 32px 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--gold);
+    display: inline-block;
+  }
+  h3.sub-head {
+    color: var(--navy);
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 24px 0 8px;
+  }
+
+  p { margin-bottom: 14px; color: #374151; }
+
+  .tip-box {
+    background: var(--gold-light);
+    border: 1px solid rgba(232,160,32,0.3);
+    border-left: 4px solid var(--gold);
+    padding: 16px 20px;
+    border-radius: 0 8px 8px 0;
+    margin: 20px 0;
+    font-size: 0.92rem;
+  }
+  .tip-box strong { color: var(--navy); }
+
+  .nd-box {
+    background: #EEF2FF;
+    border: 1px solid #C7D2FE;
+    border-left: 4px solid #6366F1;
+    padding: 16px 20px;
+    border-radius: 0 8px 8px 0;
+    margin: 20px 0;
+    font-size: 0.9rem;
+  }
+  .nd-box .nd-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #6366F1;
+    margin-bottom: 6px;
+  }
+
+  .action-box {
+    background: var(--green-light);
+    border: 1px solid #BBF7D0;
+    border-left: 4px solid var(--green);
+    padding: 18px 22px;
+    border-radius: 0 8px 8px 0;
+    margin: 24px 0;
+  }
+  .action-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 8px;
+  }
+  .action-box p { color: #065F46; margin: 0; }
+
+  .step-grid {
+    display: grid;
+    gap: 14px;
+    margin: 20px 0;
+  }
+  .step-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 16px;
+    background: var(--surface);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+  .step-num {
+    min-width: 32px;
+    height: 32px;
+    background: var(--navy);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    margin-top: 2px;
+  }
+  .step-content strong { color: var(--navy); display: block; margin-bottom: 4px; font-size: 0.92rem; }
+  .step-content span { color: #6B7280; font-size: 0.87rem; line-height: 1.5; }
+
+  .channel-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+    margin: 20px 0;
+  }
+  .channel-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+    text-align: center;
+    transition: all 0.2s;
+  }
+  .channel-card:hover { border-color: var(--gold); transform: translateY(-2px); }
+  .channel-icon { font-size: 1.8rem; margin-bottom: 8px; }
+  .channel-name { font-weight: 600; color: var(--navy); font-size: 0.9rem; margin-bottom: 4px; }
+  .channel-desc { color: var(--muted); font-size: 0.8rem; line-height: 1.4; }
+
+  .script-box {
+    background: #1E293B;
+    color: #E2E8F0;
+    border-radius: 8px;
+    padding: 20px 22px;
+    margin: 16px 0;
+    font-size: 0.88rem;
+    line-height: 1.7;
+    font-family: 'DM Sans', sans-serif;
+    white-space: pre-wrap;
+    position: relative;
+  }
+  .script-box .script-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+    font-weight: 600;
+    display: block;
+  }
+  .copy-btn {
+    position: absolute;
+    top: 14px; right: 14px;
+    background: rgba(232,160,32,0.15);
+    color: var(--gold);
+    border: 1px solid rgba(232,160,32,0.3);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+  }
+  .copy-btn:hover { background: rgba(232,160,32,0.3); }
+
+  .checklist { list-style: none; margin: 16px 0; }
+  .checklist li {
+    display: flex;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+    font-size: 0.92rem;
+  }
+  .checklist li:last-child { border: none; }
+  .check-cb {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  .check-cb.done { background: var(--complete); border-color: var(--complete); color: white; }
+
+  /* LESSON NAV BUTTONS */
+  .lesson-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 36px;
+    border-top: 1px solid var(--border);
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-primary { background: var(--navy); color: white; }
+  .btn-primary:hover { background: #24527A; }
+  .btn-gold { background: var(--gold); color: white; }
+  .btn-gold:hover { background: #D4911A; }
+  .btn-outline { background: transparent; color: var(--navy); border: 2px solid var(--navy); }
+  .btn-outline:hover { background: var(--surface); }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .mark-complete-wrap { display: flex; align-items: center; gap: 10px; }
+  .complete-status { font-size: 0.82rem; color: var(--complete); font-weight: 600; display: none; }
+  .complete-status.show { display: block; }
+
+  /* COMPLETION SCREEN */
+  .completion-screen {
+    text-align: center;
+    padding: 60px 40px;
+    display: none;
+  }
+  .completion-screen.show { display: block; }
+  .completion-icon { font-size: 4rem; margin-bottom: 20px; }
+  .completion-screen h2 { font-family: 'Fraunces', serif; color: var(--navy); font-size: 2rem; margin-bottom: 12px; }
+  .completion-screen p { color: var(--muted); max-width: 400px; margin: 0 auto 28px; }
+
+  /* TABLE */
+  .data-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.88rem; }
+  .data-table th { background: var(--navy); color: white; padding: 10px 14px; text-align: left; font-weight: 600; }
+  .data-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: #374151; }
+  .data-table tr:nth-child(even) td { background: var(--surface); }
+  .data-table tr:hover td { background: var(--gold-light); }
+
+  /* TOOLTIP */
+  .term {
+    border-bottom: 1px dashed var(--gold);
+    cursor: help;
+    color: var(--navy);
+    font-weight: 500;
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo">DeployMiMS</div>
+  <div class="progress-bar-wrap">
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <span class="progress-label" id="progressLabel">0 / 5</span>
+  </div>
+  <div style="color:rgba(255,255,255,0.5);font-size:0.78rem;">Local Visibility eCourse</div>
+</header>
+
+<section class="hero">
+  <div class="hero-badge">Mini eCourse · 5 Lessons</div>
+  <h1>Local Visibility<br><em>Deployment System</em></h1>
+  <p class="hero-sub">How to become the most recognisable realtor in your city — without running a single paid ad.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="hero-stat-num">5</span><span class="hero-stat-label">Lessons</span></div>
+    <div class="hero-stat"><span class="hero-stat-num">~2hrs</span><span class="hero-stat-label">Total Time</span></div>
+    <div class="hero-stat"><span class="hero-stat-num">Lifetime</span><span class="hero-stat-label">Access</span></div>
+  </div>
+</section>
+
+<div class="main-layout">
+  <!-- SIDEBAR NAV -->
+  <nav class="sidebar">
+    <div class="sidebar-title">Course Lessons</div>
+    <a class="nav-item active" onclick="showLesson(0)" id="nav-0">
+      <div class="nav-dot">1</div>
+      <span>Your Local Footprint</span>
+    </a>
+    <a class="nav-item" onclick="showLesson(1)" id="nav-1">
+      <div class="nav-dot">2</div>
+      <span>Google Business Profile</span>
+    </a>
+    <a class="nav-item" onclick="showLesson(2)" id="nav-2">
+      <div class="nav-dot">3</div>
+      <span>Community Presence</span>
+    </a>
+    <a class="nav-item" onclick="showLesson(3)" id="nav-3">
+      <div class="nav-dot">4</div>
+      <span>Sell & Close Faster</span>
+    </a>
+    <a class="nav-item" onclick="showLesson(4)" id="nav-4">
+      <div class="nav-dot">5</div>
+      <span>Your 30-Day Plan</span>
+    </a>
+  </nav>
+
+  <!-- CONTENT AREA -->
+  <div class="content-area">
+
+    <!-- LESSON 1 -->
+    <div class="lesson-card active" id="lesson-0">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 01 · Foundation</div>
+        <h1 class="lesson-title">Building Your Local Footprint</h1>
+        <div class="lesson-meta">
+          <span class="lesson-badge">⏱ 20 mins</span>
+          <span class="lesson-badge">📍 Strategy</span>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="intro-block">
+          Local visibility is not about being famous. It is about being <em>the first name that comes to mind</em> when someone in your city thinks "I need a realtor." This lesson defines your visibility zone and sets the foundation for everything else.
+        </div>
+
+        <div class="nd-box">
+          <div class="nd-label">🧠 Neurodivergent-Friendly</div>
+          This lesson is about strategy — nothing to set up yet. Read it, do the exercises, then take a break before moving on. Each exercise takes 5–10 minutes max.
+        </div>
+
+        <h2 class="section-head">What "Local Visibility" Actually Means</h2>
+        <p>Most realtors try to be visible everywhere. That is exactly why they are visible nowhere. Local visibility means dominating a specific geography so thoroughly that within your zone, you are known, trusted, and recommended.</p>
+        <p>Think about the most successful realtor you know personally. Chances are, they are not the most creative poster or the best-dressed person at showings. They are the one whose name comes up in conversations. That is the result of local visibility done right.</p>
+
+        <h2 class="section-head">Exercise 1: Define Your Visibility Zone</h2>
+        <p>Your visibility zone is the geographic area you will dominate. It should be specific enough to be ownable, and large enough to contain enough buyers.</p>
+
+        <div class="step-grid">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <strong>Choose 1–2 neighbourhoods or districts</strong>
+              <span>Not a whole city. Not Lagos. Pick Lekki Phase 1, or Jabi, or GRA Port Harcourt. Specific enough to build a reputation.</span>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <strong>Identify your buyer type in that zone</strong>
+              <span>Are most buyers in your zone investors? First-time buyers? Diaspora? Knowing this shapes every other decision.</span>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <strong>Audit existing realtors in that zone</strong>
+              <span>Who already operates there? What are they known for? Where are they weak? Your opportunity lives in their gap.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tip-box">
+          <strong>Your Visibility Zone Statement:</strong><br>
+          "I am becoming the most trusted realtor in <u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u> for <u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u> buyers looking for <u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>."<br>
+          <span style="color:var(--muted);font-size:0.85rem;">Write this in your notes app or notebook right now. This becomes your north star.</span>
+        </div>
+
+        <h2 class="section-head">The 5 Channels of Local Visibility</h2>
+        <div class="channel-grid">
+          <div class="channel-card">
+            <div class="channel-icon">🌐</div>
+            <div class="channel-name">Google Presence</div>
+            <div class="channel-desc">When people search your area, you appear</div>
+          </div>
+          <div class="channel-card">
+            <div class="channel-icon">🏘️</div>
+            <div class="channel-name">Community Presence</div>
+            <div class="channel-desc">Active in local groups, events, associations</div>
+          </div>
+          <div class="channel-card">
+            <div class="channel-icon">📲</div>
+            <div class="channel-name">Social Proof</div>
+            <div class="channel-desc">Reviews, testimonials, visible client wins</div>
+          </div>
+          <div class="channel-card">
+            <div class="channel-icon">🤝</div>
+            <div class="channel-name">Referral Network</div>
+            <div class="channel-desc">Allied professionals sending you business</div>
+          </div>
+          <div class="channel-card">
+            <div class="channel-icon">📧</div>
+            <div class="channel-name">Email & WhatsApp</div>
+            <div class="channel-desc">Staying top-of-mind with warm contacts</div>
+          </div>
+        </div>
+
+        <p>You will build each of these systematically across this course. Do not try to do everything at once. One lesson, one channel.</p>
+
+        <div class="action-box">
+          <div class="action-label">✅ Lesson Action</div>
+          <p>Write your Visibility Zone Statement right now. Then list the names of 3 realtors who currently operate in your zone. For each one, note what they are known for. This is your competitive map.</p>
+        </div>
+      </div>
+      <div class="lesson-nav">
+        <button class="btn btn-outline" disabled>← Previous</button>
+        <div class="mark-complete-wrap">
+          <button class="btn btn-gold" onclick="markComplete(0)">Mark as Complete</button>
+          <span class="complete-status" id="complete-0">✓ Completed</span>
+        </div>
+        <button class="btn btn-primary" onclick="showLesson(1)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <!-- LESSON 2 -->
+    <div class="lesson-card" id="lesson-1">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 02 · Infrastructure</div>
+        <h1 class="lesson-title">Google Business Profile Setup</h1>
+        <div class="lesson-meta">
+          <span class="lesson-badge">⏱ 25 mins</span>
+          <span class="lesson-badge">⚙️ Setup</span>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="intro-block">
+          When someone in Lagos searches "realtor in Lekki" or "buy apartment Abuja", Google decides who appears. Your Google Business Profile is a free, powerful tool that puts you in those results — and most Nigerian realtors have not set it up.
+        </div>
+
+        <div class="nd-box">
+          <div class="nd-label">🧠 Neurodivergent-Friendly</div>
+          This lesson has actual setup steps. Do them one at a time. If you get stuck on a step, skip it and come back. The most important steps are marked with ⭐.
+        </div>
+
+        <h2 class="section-head">Why This Matters</h2>
+        <p>Google Business Profile (formerly Google My Business) is free. It shows your contact info, reviews, photos, and services in Google Search and Google Maps. When someone searches for a realtor near them, a complete profile with reviews outranks most websites.</p>
+        <p>For a Nigerian realtor targeting a specific area, this is arguably your highest-return 30-minute investment.</p>
+
+        <h2 class="section-head">⭐ Step-by-Step Setup</h2>
+        <div class="step-grid">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <strong>Go to business.google.com</strong>
+              <span>Sign in with your professional Gmail address (not a personal one). Click "Manage Now".</span>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <strong>Search for your business name</strong>
+              <span>If it exists, claim it. If not, create a new profile. Business name format: "[Your Name] — Realtor [City]" e.g. "Chidi Okonkwo — Realtor Abuja"</span>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <strong>Choose category: Real Estate Agent</strong>
+              <span>Primary category must be "Real Estate Agent". Add secondary categories: "Real Estate Agency", "Property Management Company" if relevant.</span>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <strong>Add your service area (not a physical address)</strong>
+              <span>If you do not have an office, select "I serve customers at their locations" and add your target neighbourhoods and city as service areas.</span>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">5</div>
+            <div class="step-content">
+              <strong>Complete the profile fully</strong>
+              <span>Phone number, website (or Mainstack link), hours, description. Profiles that are 100% complete get 7× more clicks than incomplete ones.</span>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">6</div>
+            <div class="step-content">
+              <strong>Verify your profile</strong>
+              <span>Google will send a code by phone or postcard. Complete verification — your profile will not appear in searches until verified.</span>
+            </div>
+          </div>
+        </div>
+
+        <h2 class="section-head">⭐ Your Business Description (Copy & Adapt)</h2>
+        <div class="script-box">
+          <span class="script-label">📋 Google Business Description Template</span>
+          <button class="copy-btn" onclick="copyScript(this)">Copy</button>
+[Your Name] is a professional real estate agent serving [Area/City], specialising in helping [buyer type] find verified, legitimate properties without the stress of documentation fraud or unreliable listings.
+
+With [X years] of experience in the [City] property market, I personally verify every property I show — including Certificate of Occupancy, Survey Plan, and Deed of Assignment — before any client views it.
+
+Areas covered: [List your 2-3 focus areas]
+Services: Property search and acquisition · Document verification · Investor advisory · First-time buyer guidance
+
+Contact me directly: [Phone] | [Email]
+        </div>
+
+        <h2 class="section-head">Getting Reviews (The Fastest Visibility Boost)</h2>
+        <p>Reviews are the single most powerful signal in Google local search. Five genuine 5-star reviews will move you above competitors with zero reviews, regardless of how long they have been in business.</p>
+
+        <h3 class="sub-head">How to Get Your First 5 Reviews</h3>
+        <div class="script-box">
+          <span class="script-label">📋 Review Request WhatsApp Message</span>
+          <button class="copy-btn" onclick="copyScript(this)">Copy</button>
+Hi [Name], I hope you're well. I'm building my online presence as a realtor and would genuinely appreciate 2 minutes of your time.
+
+If you've been happy with my service, would you be willing to leave me a Google review? It really does make a difference for a small business.
+
+Here's the direct link: [Your Google Review Link]
+
+Thank you so much — it means a lot. 🙏
+        </div>
+
+        <div class="tip-box">
+          <strong>Getting your review link:</strong> In your Google Business dashboard, go to "Get more reviews" and copy the direct link. Share it anywhere — WhatsApp, email, Instagram bio.
+        </div>
+
+        <div class="action-box">
+          <div class="action-label">✅ Lesson Action</div>
+          <p>Set up and verify your Google Business Profile today. Then send the review request message to your top 5 past clients or contacts. Even 1 review this week is a win.</p>
+        </div>
+      </div>
+      <div class="lesson-nav">
+        <button class="btn btn-outline" onclick="showLesson(0)">← Previous</button>
+        <div class="mark-complete-wrap">
+          <button class="btn btn-gold" onclick="markComplete(1)">Mark as Complete</button>
+          <span class="complete-status" id="complete-1">✓ Completed</span>
+        </div>
+        <button class="btn btn-primary" onclick="showLesson(2)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <!-- LESSON 3 -->
+    <div class="lesson-card" id="lesson-2">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 03 · Community</div>
+        <h1 class="lesson-title">Becoming a Community Presence</h1>
+        <div class="lesson-meta">
+          <span class="lesson-badge">⏱ 20 mins</span>
+          <span class="lesson-badge">🤝 Networking</span>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="intro-block">
+          Digital presence gets you found. Community presence gets you trusted. This lesson is about building a reputation in the physical and online spaces where your ideal buyer already gathers — without being salesy or annoying.
+        </div>
+
+        <div class="nd-box">
+          <div class="nd-label">🧠 Neurodivergent-Friendly</div>
+          Community networking can feel overwhelming for many people. The key: you do not need to attend every event or join every group. Choose ONE from each category below and commit to it for 30 days. Depth beats breadth.
+        </div>
+
+        <h2 class="section-head">Online Communities to Join</h2>
+        <p>Your buyers are already gathering in digital communities. These are the highest-value ones for Nigerian realtors:</p>
+
+        <table class="data-table">
+          <tr><th>Community Type</th><th>Examples</th><th>Your Role</th></tr>
+          <tr><td>WhatsApp Property Investment Groups</td><td>Lagos Property Investors, Abuja Real Estate Network</td><td>Answer questions, share market data — never lead with listings</td></tr>
+          <tr><td>Facebook Groups</td><td>Nairaland property, diaspora investment groups</td><td>Post educational content, comment helpfully on property queries</td></tr>
+          <tr><td>LinkedIn Groups</td><td>Nigeria Real Estate Professionals, Investment Networks</td><td>Share market analysis, connect with investors and developers</td></tr>
+          <tr><td>Neighbourhood/Estate Groups</td><td>Lekki Phase 1 Residents, Maitama Community</td><td>Be the go-to property resource — share tips, answer questions</td></tr>
+        </table>
+
+        <h3 class="sub-head">The Community Contribution Formula</h3>
+        <p>For every 10 interactions in a group: 8 should be helpful and educational, 1 should be a free resource offer, and 1 can be a soft pitch or listing. This ratio builds trust and prevents you from being removed or ignored.</p>
+
+        <h2 class="section-head">Physical Community Presence</h2>
+        <p>Online communities build reach. Physical presence builds the deepest trust. Here are the most effective physical channels for Nigerian realtors:</p>
+
+        <div class="step-grid">
+          <div class="step-item">
+            <div class="step-num">🏢</div>
+            <div class="step-content">
+              <strong>Estate Residents' Association Meetings</strong>
+              <span>Request to present a free 15-minute "Property Market Update" at the next meeting. No selling — just value. You leave as the neighbourhood's realtor.</span>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">⛪</div>
+            <div class="step-content">
+              <strong>Church & Religious Community Networks</strong>
+              <span>Many of Nigeria's highest-value property transactions start with trust built in religious communities. Offer free property advice sessions after services.</span>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">🤝</div>
+            <div class="step-content">
+              <strong>Professional Associations</strong>
+              <span>Join and attend meetings of the Nigerian Institution of Estate Surveyors and Valuers (NIESV), local chamber of commerce, or any professional body where your buyers gather.</span>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">🏦</div>
+            <div class="step-content">
+              <strong>Allied Professional Partnerships</strong>
+              <span>Build relationships with mortgage brokers, lawyers, surveyors, and interior designers who serve the same clients. Every referral from these partners costs you nothing and converts at very high rates.</span>
+            </div>
+          </div>
+        </div>
+
+        <h2 class="section-head">The Allied Professional Pitch</h2>
+        <div class="script-box">
+          <span class="script-label">📋 WhatsApp Message to Allied Professionals</span>
+          <button class="copy-btn" onclick="copyScript(this)">Copy</button>
+Hi [Name], I'm [Your Name], a realtor specialising in [area/type]. I came across your work and I think we serve a similar client base.
+
+I regularly have clients who need [their service — e.g. a property lawyer / mortgage advisor / surveyor] and I'd love to have someone I trust to refer them to.
+
+Would you be open to a quick call this week? I'm also happy to refer clients your way when the fit is right. No obligations — just two professionals building something useful.
+        </div>
+
+        <div class="action-box">
+          <div class="action-label">✅ Lesson Action</div>
+          <p>This week: Join 1 online community and make 3 genuinely helpful contributions (no pitching). Send the Allied Professional message to 2 professionals who serve your ideal buyer type. Track who responds.</p>
+        </div>
+      </div>
+      <div class="lesson-nav">
+        <button class="btn btn-outline" onclick="showLesson(1)">← Previous</button>
+        <div class="mark-complete-wrap">
+          <button class="btn btn-gold" onclick="markComplete(2)">Mark as Complete</button>
+          <span class="complete-status" id="complete-2">✓ Completed</span>
+        </div>
+        <button class="btn btn-primary" onclick="showLesson(3)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <!-- LESSON 4 -->
+    <div class="lesson-card" id="lesson-3">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 04 · Sales</div>
+        <h1 class="lesson-title">How to Sell and Close Faster</h1>
+        <div class="lesson-meta">
+          <span class="lesson-badge">⏱ 30 mins</span>
+          <span class="lesson-badge">💰 Conversion</span>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="intro-block">
+          Speed in closing is not about pressure. It is about removing uncertainty at every stage. The faster you answer a buyer's unspoken fears, the faster they say yes. This lesson gives you the specific scripts and frameworks to do that.
+        </div>
+
+        <div class="nd-box">
+          <div class="nd-label">🧠 Neurodivergent-Friendly</div>
+          Sales conversations can feel unpredictable. The scripts in this lesson give you a clear structure so you always know what to say next. You do not need to memorise them — just understand the logic, and the words will come naturally.
+        </div>
+
+        <h2 class="section-head">Why Deals Stall in Nigeria</h2>
+        <p>Nigerian property deals most commonly stall because of four fears: fear of documentation fraud, fear of making the wrong decision, fear of overpaying, and fear of the process being too complicated. Your job is to address all four before the buyer has to ask.</p>
+
+        <h2 class="section-head">The Viewing Framework</h2>
+        <p>Most realtors show properties and then wait. High-closing realtors guide the viewing with intention. Here is the structure:</p>
+
+        <div class="step-grid">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <strong>Before you arrive: Set expectations</strong>
+              <span>Send a WhatsApp message 30 minutes before: "I'll meet you at [location] at [time]. I've pulled the property documents so we can review them together. Anything specific you'd like me to point out?"</span>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <strong>During the viewing: Ask, don't tell</strong>
+              <span>Instead of listing features, ask: "What do you think of the space?" and "Is this the kind of layout that works for how you live?" Let them convince themselves.</span>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <strong>Documents on site: Show, don't just tell</strong>
+              <span>Physically show the C of O, survey plan, and deed of assignment during the viewing. Say: "Here are the documents — you're welcome to photograph them and have your lawyer review them."</span>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <strong>End with a clear next step</strong>
+              <span>Never leave a viewing without agreeing on a next action. "Shall I send you a full document summary tonight? And can we agree to speak by [day] after you've reviewed it?"</span>
+            </div>
+          </div>
+        </div>
+
+        <h2 class="section-head">The Closing Conversation Scripts</h2>
+
+        <h3 class="sub-head">When they're interested but hesitating:</h3>
+        <div class="script-box">
+          <span class="script-label">📋 The Honest Close</span>
+          <button class="copy-btn" onclick="copyScript(this)">Copy</button>
+"[Name], I want to be honest with you because I think you deserve that. Based on everything you've told me, this property matches what you're looking for. I'm not going to pretend there's no other option — there are always other properties. But in [area] at this price, with these documents, this is genuinely good value right now.
+
+If you're not ready, I completely understand — and I won't pressure you. But if what's holding you back is something specific, I'd rather know so we can address it directly. What's the real hesitation?"
+        </div>
+
+        <h3 class="sub-head">When they say "let me think about it":</h3>
+        <div class="script-box">
+          <span class="script-label">📋 The Clarity Response</span>
+          <button class="copy-btn" onclick="copyScript(this)">Copy</button>
+"Of course — this is a big decision. Can I ask what specifically you want to think through? I ask because sometimes I can answer questions on the spot that save you a week of uncertainty.
+
+And just so you have the full picture: this property has had [X] viewing requests this week. I can't hold it without a deposit. If you'd like, I can put you first in line with a refundable expression of interest while you make your decision. Would that help?"
+        </div>
+
+        <h3 class="sub-head">The Follow-Up Message (24hrs after viewing):</h3>
+        <div class="script-box">
+          <span class="script-label">📋 Post-Viewing WhatsApp</span>
+          <button class="copy-btn" onclick="copyScript(this)">Copy</button>
+Hi [Name], it was great showing you [property] yesterday. I hope you got a chance to rest — property decisions are tiring!
+
+I've attached the document summary as promised. A few things worth noting: [1-2 specific positives about the property relevant to what they mentioned they cared about].
+
+One question I forgot to ask: how important is [the thing they seemed uncertain about] to you on a scale of 1–10? Helps me know whether to look for alternatives or whether this one is still in the running.
+
+Happy to chat whenever you're ready. No rush.
+        </div>
+
+        <h2 class="section-head">Checklist: Signs a Lead is Ready to Close</h2>
+        <ul class="checklist" id="closing-checklist">
+          <li><div class="check-cb" onclick="toggleCheck(this)"></div><span>They asked about the payment process or deposit amount</span></li>
+          <li><div class="check-cb" onclick="toggleCheck(this)"></div><span>They asked a second viewing or requested to bring a family member</span></li>
+          <li><div class="check-cb" onclick="toggleCheck(this)"></div><span>They asked about move-in timeline or renovation possibilities</span></li>
+          <li><div class="check-cb" onclick="toggleCheck(this)"></div><span>They replied to a follow-up message with specific questions</span></li>
+          <li><div class="check-cb" onclick="toggleCheck(this)"></div><span>They said "let me think" but have been engaging (reading your messages)</span></li>
+        </ul>
+        <p style="color:var(--muted);font-size:0.85rem;">If 3 or more of these apply: call them, do not send a message. A phone call at this stage converts at 3× the rate of a WhatsApp text.</p>
+
+        <div class="action-box">
+          <div class="action-label">✅ Lesson Action</div>
+          <p>Save all three scripts to your phone's "Saved Messages" on WhatsApp. The next time a lead goes quiet after a viewing, send the Post-Viewing message within 24 hours. Track how many respond.</p>
+        </div>
+      </div>
+      <div class="lesson-nav">
+        <button class="btn btn-outline" onclick="showLesson(2)">← Previous</button>
+        <div class="mark-complete-wrap">
+          <button class="btn btn-gold" onclick="markComplete(3)">Mark as Complete</button>
+          <span class="complete-status" id="complete-3">✓ Completed</span>
+        </div>
+        <button class="btn btn-primary" onclick="showLesson(4)">Final Lesson →</button>
+      </div>
+    </div>
+
+    <!-- LESSON 5 -->
+    <div class="lesson-card" id="lesson-4">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 05 · Implementation</div>
+        <h1 class="lesson-title">Your 30-Day Local Visibility Plan</h1>
+        <div class="lesson-meta">
+          <span class="lesson-badge">⏱ 20 mins</span>
+          <span class="lesson-badge">🗓 Planning</span>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="intro-block">
+          Everything in this course only matters if you implement it. This lesson gives you a concrete, week-by-week plan for the next 30 days. Do exactly what is listed. Nothing more. Completion beats perfection.
+        </div>
+
+        <div class="nd-box">
+          <div class="nd-label">🧠 Neurodivergent-Friendly</div>
+          This plan is broken into small weekly tasks. Cross each one off as you complete it. If you miss a week, do not restart from the beginning — just pick up where you left off. Progress is not linear and that is okay.
+        </div>
+
+        <h2 class="section-head">Week 1: Foundation</h2>
+        <ul class="checklist">
+          <li><div class="check-cb" onclick="toggleCheck(this)"></div><span>Write your Visibility Zone Statement (Lesson 1 exercise)</span></li>
+          <li><div class="check-cb" onclick="toggleCheck(this)"></div><span>Set up and verify Google Business Profile</span></li>
+          <li><div class="check-cb" onclick="toggleCheck(this)"></div><span>Send review requests to 5 past clients or contacts</span></li>
+          <li><div class="check-cb" onclick="toggleCheck(this)"></div><span>Update all social media bios with your visibility positioning</span></li>
+          <li><div class="check-cb" onclick="toggleCheck(this)"></div><span>Save the 3 closing scripts to your phone</span></li>
+        </ul>
+
+        <h2 class="section-head">Week 2: Community</h2>
+        <ul class="checklist">
+          <li><div class="check-cb" onclick="toggleCheck(this)"></div><span>Join 1 online community relevant to your zone (group, not just follow)</span></li>
+          <li><div class="check-cb" onclick="toggleCheck(this)"></div><span>Make 3 genuinely helpful contributions in that community</span></li>
+          <li><div class="check-cb" onclick="toggleCheck(this)"></div><span>Send Allied Professional outreach to 2 complementary professionals</span></li>
+          <li><div class="check-cb" onclick="toggleCheck(this)"></div><span>Post one educational piece of content across Instagram + Facebook</span></li>
+          <li><div class="check-cb" onclick="toggleCheck(this)"></div><span>Send one WhatsApp status update about your market area</span></li>
+        </ul>
+
+        <h2 class="section-head">Week 3: Lead Activation</h2>
+        <ul class="checklist">
+          <li><div class="check-cb" onclick="toggleCheck(this)"></div><span>Create and share your lead magnet (use Email Framework Module 2 suggestions)</span></li>
+          <li><div class="check-cb" onclick="toggleCheck(this)"></div><span>Follow up with every warm lead in your pipeline using the Clarity Response script</span></li>
+          <li><div class="check-cb" onclick="toggleCheck(this)"></div><span>Post one client story or social proof piece</span></li>
+          <li><div class="check-cb" onclick="toggleCheck(this)"></div><span>Book at least 1 discovery call from existing warm contacts</span></li>
+          <li><div class="check-cb" onclick="toggleCheck(this)"></div><span>Review your Google Business profile — add 2 photos if you haven't</span></li>
+        </ul>
+
+        <h2 class="section-head">Week 4: Consolidation</h2>
+        <ul class="checklist">
+          <li><div class="check-cb" onclick="toggleCheck(this)"></div><span>Review your metrics: profile visits, DMs, calls booked, reviews received</span></li>
+          <li><div class="check-cb" onclick="toggleCheck(this)"></div><span>Continue community engagement (3+ helpful posts/comments)</span></li>
+          <li><div class="check-cb" onclick="toggleCheck(this)"></div><span>Post a market update for your specific visibility zone</span></li>
+          <li><div class="check-cb" onclick="toggleCheck(this)"></div><span>Request 2 more Google reviews from new contacts</span></li>
+          <li><div class="check-cb" onclick="toggleCheck(this)"></div><span>Write a brief reflection: what worked, what to double down on in Month 2</span></li>
+        </ul>
+
+        <h2 class="section-head">What Success Looks Like at Day 30</h2>
+
+        <table class="data-table">
+          <tr><th>Metric</th><th>Minimum Target</th><th>Strong Target</th></tr>
+          <tr><td>Google reviews received</td><td>3+</td><td>7+</td></tr>
+          <tr><td>New leads captured</td><td>5+</td><td>15+</td></tr>
+          <tr><td>Discovery calls completed</td><td>2+</td><td>5+</td></tr>
+          <tr><td>Allied professionals connected</td><td>2</td><td>5+</td></tr>
+          <tr><td>Community group contributions</td><td>9+</td><td>20+</td></tr>
+          <tr><td>Content pieces published</td><td>4</td><td>8+</td></tr>
+        </table>
+
+        <div class="tip-box">
+          <strong>The Compound Effect:</strong> Month 1 will feel slow. Month 2 starts to compound as your Google reviews grow, your community reputation builds, and your content library starts generating inbound interest. Most realtors quit in Month 1. The ones who commit to Month 2 and 3 are the ones who own their market.
+        </div>
+
+        <div class="action-box">
+          <div class="action-label">✅ Final Action</div>
+          <p>Open your calendar right now and block 45 minutes every Monday morning for "Visibility Work" for the next 4 weeks. That is it. That is the whole commitment. The rest of this course tells you exactly what to do in those 45 minutes.</p>
+        </div>
+
+        <div style="background:var(--navy);border-radius:10px;padding:28px;margin-top:32px;text-align:center;">
+          <p style="color:var(--gold);font-family:'Fraunces',serif;font-size:1.3rem;font-weight:700;margin-bottom:8px;">Want DeployMiMS to implement this for you?</p>
+          <p style="color:rgba(255,255,255,0.7);font-size:0.9rem;margin-bottom:0;">The 14-day done-for-you service covers everything in this course plus your full email system setup. Email ops@deploymims.com with subject "Local Visibility Setup".</p>
+        </div>
+      </div>
+      <div class="lesson-nav">
+        <button class="btn btn-outline" onclick="showLesson(3)">← Previous</button>
+        <div class="mark-complete-wrap">
+          <button class="btn btn-gold" onclick="markComplete(4)">Mark as Complete</button>
+          <span class="complete-status" id="complete-4">✓ Completed</span>
+        </div>
+        <button class="btn btn-primary" onclick="showCompletion()">Finish Course 🎉</button>
+      </div>
+    </div>
+
+    <!-- COMPLETION -->
+    <div class="lesson-card" id="completion-screen">
+      <div class="completion-screen show">
+        <div class="completion-icon">🏆</div>
+        <h2>Course Complete!</h2>
+        <p>You have completed the Local Visibility Deployment Mini eCourse. Now the work begins — and so do the results.</p>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:8px;">
+          <button class="btn btn-primary" onclick="showLesson(0)">Review from Start</button>
+          <a href="mailto:ops@deploymims.com?subject=Local Visibility Setup" class="btn btn-gold" style="text-decoration:none;display:inline-flex;align-items:center;">Contact DeployMiMS</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const totalLessons = 5;
+  const completed = new Array(totalLessons).fill(false);
+  let currentLesson = 0;
+
+  function showLesson(index) {
+    document.querySelectorAll('.lesson-card').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('completion-screen').style.display = 'none';
+
+    const card = document.getElementById('lesson-' + index);
+    if (card) {
+      card.classList.add('active');
+      card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    const nav = document.getElementById('nav-' + index);
+    if (nav) nav.classList.add('active');
+    currentLesson = index;
+  }
+
+  function markComplete(index) {
+    completed[index] = true;
+    const nav = document.getElementById('nav-' + index);
+    if (nav) {
+      nav.classList.add('completed');
+      nav.querySelector('.nav-dot').textContent = '✓';
+    }
+    const status = document.getElementById('complete-' + index);
+    if (status) status.classList.add('show');
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const count = completed.filter(Boolean).length;
+    const pct = (count / totalLessons) * 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressLabel').textContent = count + ' / ' + totalLessons;
+  }
+
+  function showCompletion() {
+    markComplete(4);
+    document.querySelectorAll('.lesson-card').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    const screen = document.getElementById('completion-screen');
+    screen.style.display = 'block';
+    screen.classList.add('active');
+    screen.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function toggleCheck(el) {
+    el.classList.toggle('done');
+    el.textContent = el.classList.contains('done') ? '✓' : '';
+  }
+
+  function copyScript(btn) {
+    const box = btn.closest('.script-box');
+    const text = box.innerText.replace(btn.innerText, '').replace(/^\s*[^\n]+\n/, '').trim();
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy', 2000);
+    }).catch(() => {
+      btn.textContent = 'Select & copy manually';
+    });
+  }
+</script>
+</body>
+</html>
